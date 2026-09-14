@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,400..900&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=Work+Sans:wght@400;600;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #0a1118;
+    --font-work-sans: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-fraunces: 'Fraunces', Georgia, serif;
+    --font-outfit: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-ibm-plex-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color: var(--foreground);
+    background-color: var(--background);
+  }
+
+  body {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .glass-header {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  
+  .gold-border {
+    border: 1px solid transparent;
+    background: linear-gradient(#08244e, #08244e) padding-box,
+                linear-gradient(90deg, #ffd978, #fff3d3, #ffd978) border-box;
+  }
+
+  .gold-border-light {
+    border: 1px solid transparent;
+    background: linear-gradient(#ffffff, #ffffff) padding-box,
+                linear-gradient(90deg, #ffd978, #feb823, #ffd978) border-box;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
