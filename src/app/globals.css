@@ -220,6 +220,35 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
   .secure-future { --fade-end: transparent; }
 }
 
+/*
+  Desktop: each major section fills the viewport and the page snaps section to section.
+  The last section and the footer share one snap area taller than the viewport,
+  so scrolling is free from "A clear way" down to the footer.
+*/
+@media (min-width: 1024px) {
+  html { scroll-snap-type: y mandatory; }
+  .hero, .one-parent, .secure-future, .promises, .what-matters, .cta-banner, .process { min-height: 100vh; min-height: 100dvh; }
+  .hero, .one-parent, .secure-future, .promises, .what-matters, .cta-banner, .snap-end-zone { scroll-snap-align: start; scroll-snap-stop: always; }
+  .promises, .what-matters, .cta-banner, .process { display: flex; flex-direction: column; justify-content: center; }
+  .one-parent { display: flex; align-items: center; }
+  .cta-banner-content { width: 100%; }
+}
+/* Short desktop screens: tighten vertical rhythm so each section fits one screen */
+@media (min-width: 1024px) and (max-height: 860px) {
+  .hero-content { padding-top: 140px; padding-bottom: 90px; }
+  .hero-actions { margin-top: 40px; }
+  .parent-content { padding: 90px 0 56px; }
+  .parent-divider { margin-top: 36px; }
+  .parent-description { margin-top: 36px; }
+  .secure-content { padding-top: 80px; padding-bottom: 64px; }
+  .promises, .what-matters, .cta-banner, .process { padding-top: 64px; padding-bottom: 64px; }
+  .promise-cards { margin-top: 40px; }
+  .promise-card { height: 340px; }
+  .domain-scroll { margin-top: 36px; }
+  .process-steps { margin-top: 44px; }
+  .process .cta { margin-top: 44px; }
+}
+
 /* Tablet: stack copy above full-bleed photos */
 @media (max-width: 1023px) {
   .page-container { width: calc(100% - 48px); }
