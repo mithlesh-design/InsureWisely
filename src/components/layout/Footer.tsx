@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" role="contentinfo">
       <div className="page-container">
         <div className="footer-top">
           {/* Left Column: Brand & Tagline matching Figma 2:322 */}
