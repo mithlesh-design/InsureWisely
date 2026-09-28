@@ -221,17 +221,17 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
 }
 
 /*
-  Desktop: each major section fills the viewport and the page snaps section to section.
-  The last section and the footer share one snap area taller than the viewport,
-  so scrolling is free from "A clear way" down to the footer.
+  Desktop: each major section fills the viewport. SectionReveal pins the stack and wipes each
+  section up over the previous one (it adds .is-revealing only when the effect runs).
 */
 @media (min-width: 1024px) {
-  html { scroll-snap-type: y mandatory; }
   .hero, .one-parent, .secure-future, .promises, .what-matters, .cta-banner, .process { min-height: 100vh; min-height: 100dvh; }
-  .hero, .one-parent, .secure-future, .promises, .what-matters, .cta-banner, .snap-end-zone { scroll-snap-align: start; scroll-snap-stop: always; }
   .promises, .what-matters, .cta-banner, .process { display: flex; flex-direction: column; justify-content: center; }
   .one-parent { display: flex; align-items: center; }
   .cta-banner-content { width: 100%; }
+  html { scroll-behavior: auto; }
+  .reveal-stack.is-revealing { position: relative; height: 100vh; overflow: hidden; }
+  .reveal-stack.is-revealing > .section { position: absolute; inset: 0; min-height: 0; will-change: clip-path, transform; }
 }
 /* Short desktop screens: tighten vertical rhythm so each section fits one screen */
 @media (min-width: 1024px) and (max-height: 860px) {

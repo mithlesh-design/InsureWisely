@@ -1,6 +1,7 @@
 import React from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+import { SectionReveal } from "@/components/layout/SectionReveal";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { OneParentSection } from "@/components/sections/OneParentSection";
 import { TrustMetricsSection } from "@/components/sections/TrustMetricsSection";
@@ -18,19 +19,18 @@ export default function Home() {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-grow">
-        <HeroSection />
-        <OneParentSection />
-        {SHOW_TRUST_METRICS && <TrustMetricsSection />}
-        <SecureFutureSection />
-        <FourPromisesSection />
-        <WhatMattersSection />
-        <CtaBannerSection />
-        {/* One snap area taller than the viewport, so scrolling is free from here to the footer */}
-        <div className="snap-end-zone">
+        <SectionReveal>
+          <HeroSection />
+          <OneParentSection />
+          {SHOW_TRUST_METRICS && <TrustMetricsSection />}
+          <SecureFutureSection />
+          <FourPromisesSection />
+          <WhatMattersSection />
+          <CtaBannerSection />
           <ClearerWaySection />
-          <Footer />
-        </div>
+        </SectionReveal>
       </main>
+      <Footer />
     </div>
   );
 }
