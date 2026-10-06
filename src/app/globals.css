@@ -221,8 +221,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
 }
 
 /*
-  Desktop: each major section fills the viewport. SectionReveal stacks them and plays one wipe-up
-  transition per scroll gesture (it adds .is-revealing only when the effect runs).
+  Desktop: each major section fills the viewport. SectionReveal stacks them and moves one step per
+  scroll gesture. It adds .is-paged / .is-revealing only while the effect runs; the page itself never
+  scrolls natively then, so only the controller can move it.
 */
 @media (min-width: 1024px) {
   .hero, .one-parent, .secure-future, .promises, .what-matters, .cta-banner, .process { min-height: 100vh; min-height: 100dvh; }
@@ -230,6 +231,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
   .one-parent { display: flex; align-items: center; }
   .cta-banner-content { width: 100%; }
   html { scroll-behavior: auto; }
+  html.is-paged { overflow: hidden; overscroll-behavior: none; overflow-anchor: none; }
   .reveal-stack.is-revealing { position: relative; height: 100vh; overflow: clip; }
   .reveal-stack.is-revealing > .section { position: absolute; inset: 0; min-height: 0; overflow: clip; will-change: clip-path, transform; }
 }
