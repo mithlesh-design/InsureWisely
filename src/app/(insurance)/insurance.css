@@ -1,0 +1,295 @@
+/*
+  Insurance pages — Figma "Term Insurance" frames 1001:98 (term) and 1001:502 (health), 1512px wide.
+  Shared by both routes in this group; health-only parts live in health-insurance/health-insurance.css.
+  Base styles reproduce the frame; overrides follow the same ladder as globals.css:
+  1024–1439 laptop · ≤1023 tablet · ≤639 phone.
+  Shared pieces (.page-container, .eyebrow, .display-heading, .cta, .section-heading-row) come from globals.css.
+*/
+/* Variable Fraunces with optical sizing: the static cut sets display sizes ~6% wider than Figma */
+.insurance-page { --font-fraunces: 'Fraunces Variable', 'Fraunces', Georgia, serif; color: #091b2c; background: #fff; }
+.insurance-page .display-heading { text-wrap: wrap; color: #091b2c; }
+
+/* Header 1001:99 */
+.ti-header { position: relative; z-index: 30; height: 100px; background: #fff; color: #082037; }
+.ti-nav { display: flex; align-items: center; gap: 16px; margin-left: 53px; font: 500 16px/22px var(--font-outfit); }
+.ti-nav a { position: relative; display: flex; padding: 8px 8px 8px 16px; border-radius: 4px; transition: color .2s; }
+.ti-nav a:hover, .ti-nav a[aria-current="page"] { color: #124697; }
+/* Rectangle 82: bar on the header's bottom edge under the active item (insets per item from Figma) */
+.ti-nav a[aria-current="page"]::after { content: ''; position: absolute; left: var(--ul-left, 13px); right: var(--ul-right, 0px); bottom: -31px; height: 1px; background: #124697; }
+.ti-header-actions { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+.ti-login { padding: 8px 12px; border-radius: 4px; font: 500 16px/22px var(--font-outfit); transition: color .2s; }
+.ti-login:hover { color: #124697; }
+.ti-talk { display: flex; align-items: center; justify-content: center; width: 104px; height: 38px; border: 1px solid #082037; border-radius: 7px; font: 500 16px/18px var(--font-outfit); letter-spacing: -.48px; transition: background-color .2s, color .2s; }
+.ti-talk:hover { background: #082037; color: #fff; }
+.ti-mobile-nav { display: none; }
+
+/* Hero 1001:210 + 1001:211 */
+.ti-hero { padding: 70px 0 69px; background: #ecf3f6; }
+.ti-hero-grid { display: flex; align-items: center; gap: 33px; }
+.ti-hero-copy { flex: 0 1 759px; min-width: 0; }
+.ti-hero-intro { font: 400 32px/39px var(--font-fraunces); }
+.ti-hero .display-heading { max-width: 751px; margin-top: 12px; }
+.ti-hero-description { max-width: 565px; margin-top: 24px; font: 400 16px/24px var(--font-inter); color: rgb(10 17 24 / 68%); }
+.ti-hero-features { display: flex; gap: 33px; margin-top: 41px; }
+.ti-hero-features li { flex: 0 1 185px; min-width: 0; }
+.ti-feature-icon { display: flex; align-items: center; justify-content: center; width: 93px; height: 93px; border-radius: 50%; background: #fff; }
+.ti-hero-features p { max-width: var(--label-w, 185px); margin-top: 16px; font: 700 16px/24px var(--font-inter); }
+
+/* Lead form card 1001:232 */
+.ti-lead-card { flex: 0 0 446px; padding: 50px 40px; border-radius: 20px; background: #fff; box-shadow: 0 4px 34px rgb(0 0 0 / 6%); scroll-margin-top: 24px; }
+.ti-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 20px; }
+.ti-field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.ti-field-full { grid-column: 1 / -1; }
+.ti-label { font: 400 12px/15px var(--font-outfit); letter-spacing: 1.92px; text-transform: uppercase; color: #000; }
+.ti-control { width: 100%; height: 48px; padding: 12px 16px; border: 0; border-radius: 6px; background-color: rgb(18 70 151 / 5%); font: 400 16px/20px var(--font-outfit); color: #091b2c; outline: none; transition: box-shadow .2s; }
+.ti-control::placeholder { color: rgb(89 89 89 / 30%); opacity: 1; }
+.ti-control:focus-visible { box-shadow: 0 0 0 2px #124697; }
+select.ti-control { appearance: none; -webkit-appearance: none; padding-right: 48px; background-image: url('/images/term-insurance/chevron.svg'); background-repeat: no-repeat; background-position: right 16px center; background-size: 24px 24px; cursor: pointer; text-overflow: ellipsis; }
+select.ti-control:invalid, select.ti-control.ti-control-muted { color: #595959; }
+select.ti-control option { color: #091b2c; }
+.ti-lead-card .cta, .ti-calc-form .cta { width: 100%; margin-top: 36px; }
+button.cta { cursor: pointer; }
+
+/* Why consider 1001:127 */
+.ti-why { padding: 100px 0 123px; background: #f0f9ff; }
+.ti-why .display-heading { max-width: 746px; }
+.ti-why-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 19px; margin-top: 57px; }
+/* Figma's 336px text boxes overhang the card padding, and browser Inter sets ~1px wider than Figma's: 29px keeps its line breaks */
+.ti-why-card { display: flex; flex-direction: column; gap: 23px; padding: 49px 29px 49px 32px; border: 1px solid #e2eaee; border-radius: 16px; background: #fff; box-shadow: 0 3px 20px #e3f1f8; }
+.ti-why-card h3 { font: 400 28px/35px var(--font-fraunces); }
+.ti-why-lead { max-width: var(--lead-w, none); margin-top: 8px; font: 500 20px/28px var(--font-inter); }
+.ti-why-body { margin-top: 16px; font: 400 16px/24px var(--font-inter); color: rgb(10 17 24 / 68%); }
+
+/* Cover calculator 1001:161 + 1001:257 */
+.ti-calc { padding: 100px 0 97px; background: #fff; }
+.ti-calc .display-heading { max-width: 746px; }
+.ti-calc-card { display: flex; align-items: center; gap: 56px; margin-top: 56px; padding: 23.5px 83px 29.5px 26px; border-radius: 30px; background: #124697; color: #fff; }
+.ti-calc-form { flex: 0 0 446px; padding: 32px 40px; border-radius: 20px; background: #fff; box-shadow: 0 4px 34px rgb(0 0 0 / 6%); color: #091b2c; }
+.ti-calc-fields { display: flex; flex-direction: column; gap: 26px; }
+.ti-slider-head { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 34px; }
+.ti-chip { padding: 7px 14px; border-radius: 10px; background: #f3f6fa; font: 400 16px/20px var(--font-fraunces); color: #091b2c; white-space: nowrap; }
+/* Track 6px (#124595 fill / #e8e3ec rest); the thumb centre travels the full track like the Figma knob */
+.ti-slider { position: relative; height: 6px; margin-top: 19px; border-radius: 6px; background: linear-gradient(90deg, #124595 var(--fill), #e8e3ec var(--fill)); }
+.ti-range { position: absolute; left: -11px; top: -8px; width: calc(100% + 22px); height: 22px; margin: 0; background: transparent; appearance: none; -webkit-appearance: none; cursor: pointer; }
+.ti-range::-webkit-slider-runnable-track { height: 22px; background: transparent; }
+.ti-range::-moz-range-track { height: 22px; background: transparent; }
+.ti-range::-webkit-slider-thumb { box-sizing: border-box; width: 22px; height: 22px; border: 3px solid #134797; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgb(0 0 0 / 20%); -webkit-appearance: none; transition: box-shadow .2s; }
+.ti-range::-moz-range-thumb { box-sizing: border-box; width: 22px; height: 22px; border: 3px solid #134797; border-radius: 50%; background: #fff; box-shadow: 0 2px 8px rgb(0 0 0 / 20%); }
+.ti-range:focus-visible { outline: none; }
+.ti-range:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 4px rgb(18 70 151 / 25%), 0 2px 8px rgb(0 0 0 / 20%); }
+.ti-range:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 4px rgb(18 70 151 / 25%), 0 2px 8px rgb(0 0 0 / 20%); }
+
+.ti-calc-result { display: flex; flex: 0 1 627px; flex-direction: column; gap: 38px; min-width: 0; }
+.ti-estimate { display: flex; align-items: flex-start; gap: 20px; }
+.ti-ring { position: relative; flex: none; width: 156px; height: 158.8px; padding-top: 55px; text-align: center; font-family: var(--font-jakarta); }
+.ti-ring svg { position: absolute; left: 0; top: 7px; }
+.ti-ring-value { position: relative; display: block; font-size: 26px; font-weight: 700; line-height: 33.8px; }
+.ti-ring-caption { position: relative; display: block; font-size: 12px; line-height: 15.6px; }
+.ti-estimate-copy { flex: 1 1 auto; min-width: 0; margin-top: 32.8px; font-family: var(--font-work-sans); }
+.ti-estimate-label { font-size: 12px; font-weight: 700; line-height: 19.2px; letter-spacing: 1.68px; text-transform: uppercase; }
+.ti-estimate-amount { margin-top: 3.8px; font-size: 72px; font-weight: 700; line-height: 72px; letter-spacing: -2.88px; white-space: nowrap; }
+.ti-estimate-note { margin-top: 10px; font-size: 16px; line-height: 25.6px; color: #94afd8; }
+.ti-breakdown { display: grid; gap: 14px; margin-top: 37px; padding: 24px 19px; border-radius: 20px; background: #0e3b81; font-family: var(--font-work-sans); }
+.ti-breakdown-row { display: grid; grid-template-columns: 130px minmax(0, 1fr) minmax(44px, auto); grid-template-areas: "label bar value"; align-items: center; column-gap: 20px; }
+.ti-breakdown-label { grid-area: label; font-size: 16px; line-height: 20.8px; }
+.ti-bar { grid-area: bar; height: 8px; border-radius: 8px; background: #0f336c; overflow: hidden; }
+.ti-bar span { display: block; height: 100%; border-radius: 8px; background: #317dc4; transition: width .45s ease; }
+.ti-breakdown-value { grid-area: value; font-size: 13px; font-weight: 700; line-height: 20.8px; text-align: right; white-space: nowrap; }
+.ti-result-actions { display: flex; flex-direction: column; gap: 18px; }
+.ti-btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 0 16px; border-radius: 12px; font: 700 16px/20px var(--font-jakarta); color: #fff; text-align: center; transition: background-color .2s, color .2s; }
+.ti-btn-primary { height: 49px; background: #ff7e3d; box-shadow: 0 8px 20px -8px rgb(200 24 122 / 60%); }
+.ti-btn-primary:hover { background: #e66727; }
+.ti-btn-outline { height: 52px; border: 1px solid #fff; }
+.ti-btn-outline:hover { background: #fff; color: #124697; }
+.ti-disclaimer { margin-top: 30px; font: 400 12px/19.2px var(--font-work-sans); text-align: center; }
+
+/* Advice 1001:357 */
+.ti-advice { padding: 72px 0 98px; background: #f0f9ff; }
+.ti-advice-grid { display: flex; align-items: center; gap: 71px; }
+.ti-advice-copy { flex: 0 1 617px; min-width: 0; }
+.ti-advice .display-heading { margin-top: 0; }
+.ti-advice-intro { max-width: 568.5px; margin-top: 20px; font: 400 16px/24px var(--font-work-sans); color: rgb(10 17 24 / 68%); }
+.ti-advice-points { display: flex; flex-direction: column; gap: 12px; margin-top: 22px; }
+.ti-advice-point { min-height: 83px; padding: 20px 20px 19px 20px; border: 1px solid #e8e3ec; border-radius: 16px; background: #fff; }
+.ti-advice-point h3 { font: 700 16px/15px var(--font-work-sans); letter-spacing: 1.04px; text-transform: uppercase; color: #124697; }
+.ti-advice-copy > .cta { margin-top: 36px; }
+.ti-advice-point p { margin-top: 3.5px; font: 400 14px/22.4px var(--font-work-sans); color: #5b6478; }
+/* Container 1001:375 — the photo layer (image 86) overhangs the 550×632 frame by 29/49px and is clipped */
+.ti-video { position: relative; flex: 0 1 550px; aspect-ratio: 550 / 632; border-radius: 24px; overflow: hidden; background: #949494; }
+.ti-video-photo { position: absolute; left: -5.273%; top: -7.753%; width: 125.091%; height: 125.158%; max-width: none; object-fit: cover; }
+.ti-video-play { position: absolute; left: 50%; top: 50%; width: 101px; height: 101px; transform: translate(-50%, -50%); }
+
+/* Promise 1001:381 */
+.ti-promise { padding: 100px 0 122px; background: #f9fdff; }
+.ti-promise-grid { display: flex; align-items: center; gap: 14px; }
+.ti-promise-copy { flex: 0 1 904px; min-width: 0; }
+.ti-promise .display-heading, .ti-questions .display-heading { max-width: 805px; }
+.ti-checklist { display: grid; grid-template-columns: repeat(2, minmax(0, 452px)); row-gap: 14px; margin-top: 27px; }
+.ti-checklist li { display: flex; align-items: center; gap: 12px; font: 500 20px/25.6px var(--font-work-sans); color: #14213d; }
+.ti-checklist img { flex: none; }
+.ti-promise-copy .cta { margin-top: 49px; }
+.ti-shield { flex: 0 1 320px; min-width: 0; height: auto; }
+
+/* How it works 1001:466 */
+.ti-how { padding: 72px 0; background: #fff; text-align: center; }
+.ti-how-eyebrow { font: 400 12px/18px var(--font-ibm-plex-mono); letter-spacing: 1.92px; text-transform: uppercase; }
+.ti-how h2 { max-width: 759px; margin: 21px auto 0; font: 400 58px/67.28px var(--font-fraunces); letter-spacing: -.58px; color: #0a1118; }
+.ti-steps { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; margin-top: 56px; }
+/* Vector 22: 6/6 dashed connector through the step circles */
+.ti-steps::before { content: ''; position: absolute; top: 27px; left: calc((100% - 21px) / 8); right: calc((100% - 21px) / 8); height: 1px; background: repeating-linear-gradient(90deg, #317dc4 0 6px, transparent 6px 12px); }
+.ti-step { display: flex; flex-direction: column; align-items: center; }
+.ti-step-number { position: relative; display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: #317dc4; font: 800 16px/25.6px var(--font-jakarta); color: #fff; }
+.ti-step h3 { margin-top: 24px; font: 600 16px/15px var(--font-work-sans); letter-spacing: 1.04px; text-transform: uppercase; color: #124697; }
+.ti-step p { min-height: var(--step-text-h, 0px); margin-top: 8px; font: 400 16px/19px var(--font-work-sans); color: #5b6478; }
+.ti-how .cta { margin-top: 56px; }
+
+/* Questions 1001:435 */
+.ti-questions { padding: 100px 0 66px; background: #f0f9ff; }
+.ti-question-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 384px)); gap: 19px 20px; margin-top: 40px; }
+.ti-question { display: flex; align-items: center; min-height: 106px; padding: 28px 45px 28px 28px; border: 1px solid #e8e3ec; border-radius: 16px; background: #fff; box-shadow: 0 10px 30px -18px rgb(20 33 61 / 25%); }
+.ti-question-body { display: flex; gap: 13.6px; }
+.ti-question-mark { flex: none; width: 13.8px; font: 800 22px/22px var(--font-jakarta); color: #317dc4; }
+.ti-question p { max-width: var(--text-w, none); font: 400 18px/23.8px var(--font-work-sans); color: #14213d; }
+.ti-questions .cta { width: 384px; margin-top: 40px; }
+
+/*
+  Desktop: like the landing page, every section fills the screen and SectionReveal wipes them in one gesture at a time.
+  The header overlays the hero (its white bar covers the hero's first 100px) so the hero is a full screen too.
+  margin-block: auto centres the content but lets a section taller than the screen overflow downwards only,
+  which SectionReveal then slides into view.
+*/
+@media (min-width: 1024px) {
+  .ti-header { position: absolute; inset: 0 0 auto; }
+  .ti-hero { padding-top: 170px; }
+  .ti-hero, .ti-why, .ti-calc, .ti-advice, .ti-promise, .ti-how, .ti-questions { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+  .insurance-page .section > .page-container { margin-block: auto; }
+  /* 64px keeps the calculator to one screen down to 1080px tall; shorter screens get its extra step */
+  .ti-calc { padding-top: 64px; padding-bottom: 64px; }
+}
+/* Short desktop screens: tighten vertical rhythm so sections fit one screen */
+@media (min-width: 1024px) and (max-height: 860px) {
+  .ti-hero { padding-top: 140px; padding-bottom: 40px; }
+  .ti-why, .ti-calc, .ti-advice, .ti-promise, .ti-how, .ti-questions { padding-top: 64px; padding-bottom: 64px; }
+  .ti-why-cards { margin-top: 40px; }
+  .ti-why-card { min-height: 0; }
+  .ti-calc-card { margin-top: 40px; }
+}
+@media (min-width: 1024px) and (max-height: 720px) {
+  .ti-hero { padding-top: 116px; padding-bottom: 24px; }
+  .ti-why, .ti-calc, .ti-advice, .ti-promise, .ti-how, .ti-questions { padding-top: 40px; padding-bottom: 40px; }
+  .ti-why-cards { margin-top: 32px; }
+}
+
+/* Manual line breaks from the 1512 frame only hold at full width */
+@media (max-width: 1439px) {
+  .ti-lg-break, .ti-desktop-break { display: none; }
+}
+
+/* Laptop: let fixed Figma columns flex down to 1024 */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .ti-nav { margin-left: clamp(24px, 3.5vw, 53px); }
+  .ti-lead-card { flex-basis: clamp(390px, 31vw, 446px); }
+  .ti-hero-features { gap: clamp(20px, 2.2vw, 33px); }
+  .ti-why-card { padding-inline: clamp(22px, 2.2vw, 32px); }
+  .ti-why-card h3 { font-size: clamp(24px, 1.95vw, 28px); }
+  .ti-calc-card { gap: clamp(28px, 3.7vw, 56px); padding-right: clamp(26px, 5.5vw, 83px); }
+  .ti-calc-form { flex-basis: clamp(380px, 31vw, 446px); padding-inline: clamp(28px, 2.7vw, 40px); }
+  .ti-slider-head { gap: 12px; }
+  .ti-estimate-amount { font-size: clamp(46px, 5vw, 72px); line-height: 1; letter-spacing: -.04em; }
+  .ti-breakdown-row { grid-template-columns: clamp(112px, 9vw, 130px) minmax(0, 1fr) minmax(44px, auto); column-gap: clamp(12px, 1.4vw, 20px); }
+  .ti-advice-grid { gap: clamp(32px, 4.7vw, 71px); }
+  .ti-shield { flex-basis: clamp(220px, 22vw, 320px); }
+  .ti-how h2 { font-size: clamp(48px, 4vw, 58px); line-height: 1.16; }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .ti-estimate { flex-wrap: wrap; row-gap: 8px; }
+  .ti-estimate-copy { margin-top: 0; }
+}
+
+/* Tablet: single column */
+@media (max-width: 1023px) {
+  .ti-nav, .ti-login { display: none; }
+  .ti-mobile-nav { display: flex; flex-direction: column; gap: 4px; position: absolute; top: 100%; left: 0; right: 0; padding: 16px 24px 24px; background: #fff; border-top: 1px solid #e2eaee; box-shadow: 0 16px 30px rgb(9 27 44 / 8%); font: 500 16px/22px var(--font-outfit); }
+  .ti-mobile-nav[hidden] { display: none; }
+  .ti-mobile-nav a { padding: 12px 0; }
+  .ti-mobile-nav a[aria-current="page"] { color: #124697; }
+
+  .ti-hero { padding: 56px 0 64px; }
+  .ti-hero-grid { flex-direction: column; align-items: stretch; gap: 48px; }
+  .ti-hero-copy { flex-basis: auto; }
+  .ti-hero-intro { font-size: 28px; line-height: 1.25; }
+  .ti-lead-card { flex-basis: auto; width: 100%; max-width: 560px; }
+
+  .ti-why, .ti-calc, .ti-promise, .ti-questions { padding: 72px 0; }
+  .ti-advice, .ti-how { padding: 72px 0; }
+  .ti-why-cards { grid-template-columns: 1fr; gap: 16px; margin-top: 40px; }
+  .ti-why-card { min-height: 0; }
+  .section-heading-row .cta { width: 230px; }
+
+  .ti-calc-card { flex-direction: column; align-items: stretch; gap: 40px; margin-top: 40px; padding: 24px 24px 40px; }
+  .ti-calc-form { flex-basis: auto; }
+  .ti-calc-result { flex-basis: auto; }
+
+  .ti-advice-grid { flex-direction: column; align-items: stretch; gap: 40px; }
+  .ti-advice-copy { flex-basis: auto; }
+  .ti-video { flex-basis: auto; width: 100%; max-width: 550px; }
+
+  .ti-promise-grid { flex-direction: column; align-items: flex-start; gap: 48px; }
+  .ti-promise-copy { flex-basis: auto; }
+  .ti-checklist { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  .ti-shield { flex-basis: auto; width: 200px; align-self: center; }
+
+  .ti-how h2 { font-size: 46px; line-height: 1.16; }
+  .ti-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px 24px; margin-top: 48px; }
+  .ti-steps::before { display: none; }
+  .ti-step p { min-height: 0; }
+  .ti-how .cta { margin-top: 48px; }
+
+  .ti-question-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .ti-question p { max-width: none; }
+}
+
+/* Phone */
+@media (max-width: 639px) {
+  .ti-header { height: 88px; }
+  .ti-mobile-nav { top: 88px; }
+  .ti-talk { display: none; }
+  .ti-hero { padding: 40px 0 56px; }
+  .ti-hero-intro { font-size: clamp(22px, 6.4vw, 28px); }
+  .ti-hero-features { flex-direction: column; gap: 20px; }
+  .ti-hero-features li { display: flex; align-items: center; gap: 16px; flex-basis: auto; }
+  .ti-hero-features p { max-width: none; margin-top: 0; }
+  .ti-feature-icon { flex: none; width: 72px; height: 72px; }
+  .ti-lead-card { padding: 32px 20px; }
+
+  .ti-why, .ti-calc, .ti-advice, .ti-promise, .ti-how, .ti-questions { padding: 56px 0; }
+  .ti-why-card { padding: 32px 24px; }
+  .ti-why-card h3 { font-size: 26px; }
+
+  .ti-calc-card { padding: 16px 16px 32px; border-radius: 24px; }
+  .ti-calc-form { padding: 28px 20px; }
+  .ti-estimate { flex-direction: column; gap: 16px; }
+  .ti-estimate-copy { margin-top: 0; }
+  .ti-estimate-amount { font-size: clamp(48px, 15vw, 64px); line-height: 1; letter-spacing: -.04em; }
+  .ti-breakdown { padding: 20px 16px; gap: 16px; }
+  .ti-breakdown-row { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "label value" "bar bar"; row-gap: 6px; }
+  .ti-btn { height: auto; min-height: 52px; padding: 14px 16px; }
+
+  .ti-checklist { grid-template-columns: 1fr; }
+  .ti-checklist li { font-size: 18px; }
+  .ti-shield { display: none; }
+
+  .ti-how h2 { font-size: clamp(32px, 9.6vw, 40px); }
+  .ti-steps { grid-template-columns: 1fr; gap: 32px; }
+
+  .ti-question-grid { grid-template-columns: 1fr; }
+  .ti-question { min-height: 0; padding: 24px; }
+  .ti-questions .cta { width: 100%; }
+}
+
+/* Small phone: long rupee values can't share a row with their label */
+@media (max-width: 374px) {
+  .ti-calc-card { padding-inline: 12px; }
+  .ti-calc-form { padding-inline: 16px; }
+  .ti-slider-head { flex-wrap: wrap; row-gap: 6px; }
+}

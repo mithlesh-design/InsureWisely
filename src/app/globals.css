@@ -188,7 +188,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
 .footer-column:last-child { min-width: 122px; }
 .footer-links { margin-top: 10px; font: 400 14px/21px var(--font-inter); color: #ffffffad; }
 .footer-links li { height: 37px; padding-top: 6px; }
-.footer-divider { height: 1px; background: #b4b4b440; }
+.footer-divider { height: 1px; background: repeating-linear-gradient(90deg, #b4b4b440 0 8px, transparent 8px 16px); }
 .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; margin-top: 52px; font: 400 13px/19.5px var(--font-inter); }
 
 /* Laptop: scale type between the 1024 and 1440 layouts */
@@ -233,7 +233,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px s
   html { scroll-behavior: auto; }
   html.is-paged { overflow: hidden; overscroll-behavior: none; overflow-anchor: none; }
   .reveal-stack.is-revealing { position: relative; height: 100vh; overflow: clip; }
-  .reveal-stack.is-revealing > .section { position: absolute; inset: 0; min-height: 0; overflow: clip; will-change: clip-path, transform; }
+  /* hidden rather than clip so SectionReveal can scroll a section taller than the screen */
+  .reveal-stack.is-revealing > .section { position: absolute; inset: 0; min-height: 0; overflow: hidden; will-change: clip-path, transform; }
 }
 /* Short desktop screens: tighten vertical rhythm so each section fits one screen */
 @media (min-width: 1024px) and (max-height: 860px) {

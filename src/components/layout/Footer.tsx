@@ -24,7 +24,7 @@ export const Footer: React.FC = () => {
               </h4>
               <ul className="footer-links">
                 <li>
-                  <Link href="#services" className="hover:text-white transition-colors">
+                  <Link href="/term-insurance" className="hover:text-white transition-colors">
                     Insurance
                   </Link>
                 </li>
@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
               </h4>
               <ul className="footer-links">
                 <li>
-                  <Link href="#services" className="hover:text-white transition-colors">
+                  <Link href="/term-insurance" className="hover:text-white transition-colors">
                     Insurance
                   </Link>
                 </li>
@@ -121,7 +121,7 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Divider matching Figma Vector 14 (stroke #b4b4b4 op: 0.25) */}
+        {/* Divider matching Figma Vector 14 (stroke #b4b4b4 op: 0.25, dash 8/8) */}
         <div className="footer-divider" />
 
         {/* Bottom Attribution and Copyright */}

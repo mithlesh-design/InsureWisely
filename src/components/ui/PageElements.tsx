@@ -13,8 +13,9 @@ export function CtaLink({ children, href = "#services", variant = "primary", cla
 }) {
   return <Link href={href} className={`cta cta-${variant} ${className}`}>{children}</Link>;
 }
-export function Brand({ footer = false }: { footer?: boolean }) {
-  return <Link href="#home" aria-label="Insure Wisely home" className={`brand ${footer ? "brand-footer" : ""}`}>
-    <Image src="/images/logo.svg" alt="Insure Wisely" width={284} height={54} priority={!footer} unoptimized />
+// tone "blue" is the Figma logo on light headers (wordmark and leaf mask in #124697)
+export function Brand({ footer = false, tone = "white", href = "#home" }: { footer?: boolean; tone?: "white" | "blue"; href?: string }) {
+  return <Link href={href} aria-label="Insure Wisely home" className={`brand ${footer ? "brand-footer" : ""}`}>
+    <Image src={tone === "blue" ? "/images/logo-blue.svg" : "/images/logo.svg"} alt="Insure Wisely" width={284} height={54} priority={!footer} unoptimized />
   </Link>;
 }

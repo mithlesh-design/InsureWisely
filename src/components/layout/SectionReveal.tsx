@@ -21,6 +21,10 @@ const SWIPE_START = 30;
 const HIDDEN = "inset(100% 0% 0% 0%)";
 const SHOWN = "inset(0% 0% 0% 0%)";
 const COVERED_Y = -12;
+// Overflow (px) a section needs before it gets extra steps; smaller overflow stays clipped
+const OVERFLOW_MIN = 24;
+// Each extra step moves a tall section by at most this share of the screen
+const OVERFLOW_STEP = 0.85;
 
 const average = (values: number[]) => values.reduce((sum, v) => sum + v, 0) / values.length;
 
@@ -28,6 +32,7 @@ const average = (values: number[]) => values.reduce((sum, v) => sum + v, 0) / va
   Desktop full-page navigation. The page never scrolls natively; this controller owns every move.
   Steps are the sections (each wipes up over the previous one with a clip-path reveal) plus a final
   step that scrolls the footer into view. One wheel, trackpad, touch or key gesture = one step.
+  A section taller than the screen gets extra steps that slide its overflow into view before the next wipe.
 
   Wheel input arrives as a stream of deltas. Trackpad momentum is a stream that only ever slows down,
   so a stream moves a step when it starts, and again only once the previous transition is visually
@@ -35,7 +40,7 @@ const average = (values: number[]) => values.reduce((sum, v) => sum + v, 0) / va
 
   Tablet, phone and reduced motion keep the plain stacked page.
 */
-export function SectionReveal({ children }: { children: ReactNode }) {
+export function SectionReveal({ children, header: headerSelector = ".site-header" }: { children: ReactNode; header?: string }) {
   const stack = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
@@ -44,11 +49,28 @@ export function SectionReveal({ children }: { children: ReactNode }) {
       const root = stack.current!;
       const html = document.documentElement;
       const sections = gsap.utils.toArray<HTMLElement>(root.children);
-      const header = document.querySelector<HTMLElement>(".site-header");
-      const last = sections.length - 1;
-      const FOOTER = last + 1;
+      const header = document.querySelector<HTMLElement>(headerSelector);
       const maxScroll = () => html.scrollHeight - window.innerHeight;
-      const maxStep = () => (maxScroll() > 1 ? FOOTER : last);
+
+      // A stop is a section shown at a scroll offset: offset 0 for every section, plus evenly spaced
+      // offsets down to the bottom of any section taller than the screen. The step after the last stop is the footer.
+      type Stop = { section: number; offset: number };
+      let stops: Stop[] = [];
+      let FOOTER = 0;
+      const buildStops = () => {
+        stops = [];
+        sections.forEach((section, i) => {
+          stops.push({ section: i, offset: 0 });
+          const overflow = section.scrollHeight - section.clientHeight;
+          if (overflow <= OVERFLOW_MIN) return;
+          const extra = Math.ceil(overflow / (section.clientHeight * OVERFLOW_STEP));
+          for (let k = 1; k <= extra; k++) stops.push({ section: i, offset: Math.round((overflow * k) / extra) });
+        });
+        FOOTER = stops.length;
+      };
+      const stopAt = (target: number) => stops[Math.min(target, FOOTER - 1)];
+      const firstStop = (section: number) => stops.findIndex(stop => stop.section === section);
+      const maxStep = () => (maxScroll() > 1 ? FOOTER : FOOTER - 1);
 
       let step = 0;
       let tl: gsap.core.Timeline | null = null;
@@ -59,14 +81,18 @@ export function SectionReveal({ children }: { children: ReactNode }) {
       history.scrollRestoration = "manual";
       html.classList.add("is-paged");
       root.classList.add("is-revealing");
+      buildStops();
 
-      // Sections before the active one are revealed and drifted up, later ones are clipped away
+      // Sections before the active one are revealed, drifted up and left at their bottom; later ones are clipped away
       const place = (target: number) => {
-        const active = Math.min(target, last);
-        sections.forEach((section, i) => gsap.set(section, {
-          clipPath: i <= active ? SHOWN : HIDDEN,
-          yPercent: i < active ? COVERED_Y : 0,
-        }));
+        const { section: active, offset } = stopAt(target);
+        sections.forEach((section, i) => {
+          gsap.set(section, {
+            clipPath: i <= active ? SHOWN : HIDDEN,
+            yPercent: i < active ? COVERED_Y : 0,
+          });
+          section.scrollTop = i < active ? section.scrollHeight : i === active ? offset : 0;
+        });
         if (header) gsap.set(header, { autoAlpha: target === 0 ? 1 : 0, y: target === 0 ? 0 : -24 });
         window.scrollTo(0, target === FOOTER ? maxScroll() : 0);
         step = target;
@@ -82,8 +108,10 @@ export function SectionReveal({ children }: { children: ReactNode }) {
         tl?.progress(1);
         if (target === step) return;
         const from = step;
-        const fromSection = Math.min(from, last);
-        const toSection = Math.min(target, last);
+        const fromStop = stopAt(from);
+        const toStop = stopAt(target);
+        const fromSection = fromStop.section;
+        const toSection = toStop.section;
         step = target;
         root.dataset.step = String(target);
 
@@ -94,13 +122,18 @@ export function SectionReveal({ children }: { children: ReactNode }) {
         }
         const at = tl.duration();
         if (toSection > fromSection) {
+          sections[toSection].scrollTop = toStop.offset;
           tl.fromTo(sections[toSection], { clipPath: HIDDEN, yPercent: 0 }, { clipPath: SHOWN }, at)
             .to(sections[fromSection], { yPercent: COVERED_Y }, at);
         } else if (toSection < fromSection) {
           // Sections between the two are hidden under the outgoing one before it wipes away
           sections.slice(toSection + 1, fromSection).forEach(section => gsap.set(section, { clipPath: HIDDEN, yPercent: 0 }));
+          sections[toSection].scrollTop = toStop.offset;
           tl.to(sections[fromSection], { clipPath: HIDDEN }, at)
             .fromTo(sections[toSection], { yPercent: COVERED_Y }, { yPercent: 0 }, at);
+        } else if (toStop.offset !== fromStop.offset) {
+          // Same section: slide its overflow into view
+          tl.to(sections[toSection], { scrollTop: toStop.offset }, at);
         }
         if (target === FOOTER) {
           tl.fromTo(scroll, { y: window.scrollY }, { y: maxScroll(), onUpdate: applyScroll }, tl.duration());
@@ -184,9 +217,18 @@ export function SectionReveal({ children }: { children: ReactNode }) {
       const onScroll = () => {
         if (tl?.isActive()) return;
         if (window.scrollY > 1 && step !== FOOTER) place(FOOTER);
-        else if (window.scrollY <= 1 && step === FOOTER) place(last);
+        else if (window.scrollY <= 1 && step === FOOTER) place(FOOTER - 1);
       };
-      const onResize = () => { if (step === FOOTER && !tl?.isActive()) window.scrollTo(0, maxScroll()); };
+      // Section heights depend on the screen (and on late fonts), so stops are rebuilt and the current place kept
+      const refresh = () => {
+        tl?.progress(1);
+        const atFooter = step === FOOTER;
+        const current = stopAt(step);
+        buildStops();
+        let index = firstStop(current.section);
+        while (stops[index + 1]?.section === current.section && stops[index + 1].offset <= current.offset) index++;
+        place(atFooter ? FOOTER : index);
+      };
 
       const sectionOf = (el: Element | null) => el?.closest<HTMLElement>(".is-revealing > *") ?? null;
 
@@ -199,21 +241,24 @@ export function SectionReveal({ children }: { children: ReactNode }) {
         e.stopPropagation();
         history.replaceState(null, "", link.hash);
         tl?.progress(1);
-        go(sections.indexOf(section));
+        go(firstStop(sections.indexOf(section)));
       };
       const onFocus = (e: FocusEvent) => {
         const section = sectionOf(e.target as Element);
         // Keyboard focus only; a mouse click on a visible link must not move the page first
         if (!section || !(e.target as Element).matches(":focus-visible")) return;
         const index = sections.indexOf(section);
-        if (index === step) return;
+        if (index === stopAt(step).section && step !== FOOTER) return;
         tl?.kill();
         tl = null;
-        place(index);
+        place(firstStop(index));
       };
 
       const initial = sectionOf(location.hash ? document.getElementById(location.hash.slice(1)) : null);
-      place(initial ? sections.indexOf(initial) : 0);
+      place(initial ? firstStop(sections.indexOf(initial)) : 0);
+      let alive = true;
+      document.fonts?.ready.then(() => { if (alive && !tl?.isActive()) refresh(); });
+      window.addEventListener("load", refresh);
 
       window.addEventListener("wheel", onWheel, { passive: false });
       window.addEventListener("touchstart", onTouchStart, { passive: true });
@@ -222,11 +267,12 @@ export function SectionReveal({ children }: { children: ReactNode }) {
       window.addEventListener("touchcancel", onTouchEnd);
       window.addEventListener("keydown", onKey);
       window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onResize);
+      window.addEventListener("resize", refresh);
       document.addEventListener("click", onClick, true);
       document.addEventListener("focusin", onFocus);
 
       return () => {
+        alive = false;
         window.removeEventListener("wheel", onWheel);
         window.removeEventListener("touchstart", onTouchStart);
         window.removeEventListener("touchmove", onTouchMove);
@@ -234,13 +280,15 @@ export function SectionReveal({ children }: { children: ReactNode }) {
         window.removeEventListener("touchcancel", onTouchEnd);
         window.removeEventListener("keydown", onKey);
         window.removeEventListener("scroll", onScroll);
-        window.removeEventListener("resize", onResize);
+        window.removeEventListener("resize", refresh);
+        window.removeEventListener("load", refresh);
         document.removeEventListener("click", onClick, true);
         document.removeEventListener("focusin", onFocus);
         tl?.kill();
         const animated = header ? [...sections, header] : sections;
         gsap.killTweensOf(animated);
         gsap.set(animated, { clearProps: "clipPath,transform,opacity,visibility" });
+        sections.forEach(section => { section.scrollTop = 0; });
         html.classList.remove("is-paged");
         root.classList.remove("is-revealing");
         delete root.dataset.step;

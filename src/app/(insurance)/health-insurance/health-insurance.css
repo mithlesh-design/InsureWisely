@@ -1,0 +1,144 @@
+/*
+  Health insurance page — Figma frame 1001:502 (1512px). Header, why cards, how it works, advice, questions
+  and footer come from ../insurance.css; this file holds the health-only sections.
+*/
+
+/* Hero 1001:601–1001:787: photo stage under the header, copy, two badges; the form card overlaps the stage's bottom 45px */
+.hh-hero { background: #f0f9ff; }
+.hh-stage { position: relative; display: flex; flex-direction: column; justify-content: center; min-height: 691px; padding: 64px 0; overflow: hidden; background: #ecf3f6; }
+/* image 91 is mirrored and overhangs the 1512×691 mask by 5px left, 149px top, 43px right and 41px bottom */
+.hh-photo { position: absolute; inset: 0; }
+.hh-photo img { position: absolute; left: -0.331%; top: -21.563%; width: 103.505%; height: 127.496%; max-width: none; object-fit: cover; object-position: 0% 50%; transform: scaleX(-1); }
+.hh-photo::after { content: ''; position: absolute; inset: 0; box-shadow: inset 0 0 250px #cecece; pointer-events: none; }
+.hh-hero-copy { position: relative; z-index: 1; }
+.hh-hero .display-heading { max-width: 619px; margin-top: 12px; }
+.hh-hero-copy .cta { margin-top: 33px; }
+.hh-pill { position: absolute; z-index: 1; display: inline-flex; align-items: center; height: 43px; padding: 0 27px; border: 1px solid transparent; border-radius: 80px; background: linear-gradient(#353535, #353535) padding-box, linear-gradient(90deg, #ffd978 0%, #fff3d3 63.9%, #ffd978 100%) border-box; -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); font: 400 12px/18px var(--font-ibm-plex-mono); letter-spacing: 1.92px; text-transform: uppercase; color: #ffd97b; white-space: nowrap; }
+.hh-pill-hospitals { left: 63.36%; top: 15.05%; }
+.hh-pill-claims { left: 46.23%; top: 71.49%; }
+
+.hh-lead-wrap { position: relative; z-index: 2; margin-top: -45px; }
+.hh-lead-card { display: flex; align-items: flex-end; gap: 36px; padding: 50px 40px; border-radius: 20px; background: #fff; box-shadow: 0 4px 34px rgb(0 0 0 / 6%); scroll-margin-top: 24px; }
+.hh-lead-fields { display: grid; flex: 1 1 auto; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; min-width: 0; }
+.cta.hh-lead-submit { flex: none; width: 196px; height: 48px; }
+
+/* Why 1001:531 + band 1001:789 */
+.ti-why.hh-why { padding: 64px 0 0; }
+.hh-why > .page-container { padding-bottom: 97px; }
+.hh-band { padding: 36px 0; border-bottom: 1px solid #e6e8ee; background: #295daf; color: #fff; }
+.hh-band-list { display: flex; gap: 100px; width: min(1180px, calc(100% - 80px)); margin-inline: auto; }
+.hh-band-list li { display: flex; flex: 1 1 0; gap: 14px; min-width: 0; }
+.hh-band-list img { flex: none; }
+/* Figma sets these titles at 20/14.56. A 24px line pulled in by 4.72px each side lays out a single line
+   identically, and keeps the lines apart when a narrow screen wraps the title */
+.hh-band h3 { margin-block: -4.72px; font: 600 20px/24px var(--font-work-sans); }
+.hh-band p { min-height: 42px; margin-top: 6px; font: 400 16px/19px var(--font-work-sans); color: #d3e4ff; }
+
+/* Plan basics 1001:613 — the rail starts on the page gutter and runs off the right edge */
+.hh-basics { --gutter: max(40px, calc((100% - 1240px) / 2)); padding: 72px 0 98px; background: #f0f9ff; }
+.hh-basics .display-heading { max-width: 855px; margin-top: 10px; }
+/* Padding keeps the card shadows inside the scroll box; the negative margin gives the space back */
+.hh-basics-rail { display: flex; gap: 10px; margin: 20px 0 -40px; padding: 20px var(--gutter) 40px; overflow-x: auto; scroll-padding-inline: var(--gutter); scrollbar-width: none; cursor: grab; user-select: none; -webkit-overflow-scrolling: touch; }
+.hh-basics-rail::-webkit-scrollbar { display: none; }
+.hh-basics-rail:active { cursor: grabbing; }
+.hh-basics-card { flex: none; width: 275px; min-height: 214px; padding: 24px; border: 1px solid #e6e8ee; border-radius: 20px; background: #fff; box-shadow: 0 10px 30px rgb(20 33 61 / 8%); }
+.hh-basics-card img { pointer-events: none; }
+.hh-basics-card h3 { margin: 9.28px 0 -4.72px; font: 600 20px/24px var(--font-work-sans); color: #295daf; }
+.hh-basics-card p { width: var(--text-w, auto); margin-top: 14px; font: 400 16px/24px var(--font-inter); color: rgb(10 17 24 / 68%); }
+@media (hover: none) {
+  .hh-basics-rail { scroll-snap-type: x mandatory; }
+  .hh-basics-card { scroll-snap-align: start; }
+}
+
+/* How it works 1001:732 — the heading's text box is 623px here (759px on the term page) */
+.ti-how.hh-how { padding: 103px 0; }
+.hh-how h2 { max-width: 623px; }
+
+/* Second opinion 1001:718 */
+.hh-opinion { padding: 60px 0; background: #0a2754; color: #fff; text-align: center; }
+.hh-opinion-body { display: flex; flex-direction: column; align-items: center; }
+.hh-opinion-tags { display: flex; align-items: center; gap: 20px; font: 600 16px/26.4px var(--font-inter); }
+.hh-opinion-tags li { display: flex; align-items: center; }
+.hh-opinion-tags li + li::before { content: ''; width: 5px; height: 5px; margin-right: 20px; border-radius: 50%; background: #fff; }
+.hh-opinion h2 { max-width: 571px; margin-top: 9px; font: 400 46px/57px var(--font-fraunces); }
+.hh-opinion p { max-width: 580px; margin-top: 21px; font: 400 16px/24px var(--font-inter); }
+.hh-opinion .cta { width: 368px; margin-top: 40px; }
+
+/* Desktop: full-screen sections for SectionReveal (see insurance.css). The hero is the header bar + a photo stage
+   that grows to fill the screen + the overlapping form. */
+@media (min-width: 1024px) {
+  .hh-hero { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; padding: 100px 0 40px; }
+  .hh-stage { flex: 1 0 auto; min-height: 0; }
+  .insurance-page .hh-hero > .hh-lead-wrap { margin-block: -45px 0; }
+  .hh-basics, .hh-opinion { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+  .hh-basics-body { margin-block: auto; }
+}
+/* Why cards + band are the tallest screen; they need the tighter rhythm a little earlier than the rest,
+   and must fit down to 1024x768, where the card copy wraps the most */
+@media (min-width: 1024px) and (max-height: 900px) {
+  .ti-why.hh-why { padding-top: 48px; }
+  .hh-why > .page-container { padding-bottom: 40px; }
+  .hh-why .ti-why-cards { margin-top: 40px; }
+  .hh-why .ti-why-card { min-height: 0; padding-block: 36px; }
+  .hh-band { padding-block: 28px; }
+}
+@media (min-width: 1024px) and (max-height: 860px) {
+  .hh-stage { padding-block: 32px; }
+  .hh-basics { padding-block: 56px; }
+}
+@media (min-width: 1024px) and (max-height: 720px) {
+  .hh-hero { padding-bottom: 24px; }
+  .hh-stage { padding-block: 24px; }
+  .hh-lead-card { padding-block: 32px; }
+  .ti-why.hh-why { padding-top: 32px; }
+  .hh-why > .page-container { padding-bottom: 32px; }
+  .hh-why .ti-why-cards { margin-top: 32px; }
+  .hh-why .ti-why-card { padding-block: 32px; }
+  .hh-band { padding-block: 24px; }
+}
+
+/* Laptop */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .hh-band-list { gap: clamp(32px, 5vw, 100px); }
+  .hh-opinion h2 { font-size: clamp(40px, 3.2vw, 46px); line-height: 1.24; }
+}
+
+/* Tablet: stack the form, wrap the band */
+@media (max-width: 1023px) {
+  /* Copy first, then the photo as its own block (same crop as desktop); the form overlaps its bottom edge */
+  .hh-stage { min-height: 0; padding: 56px 0 0; }
+  .hh-hero-copy { order: 1; }
+  .hh-photo { position: relative; inset: auto; order: 2; margin-top: 48px; aspect-ratio: 1512 / 691; }
+  .hh-lead-card { flex-direction: column; align-items: stretch; gap: 24px; }
+  .hh-lead-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hh-lead-fields .ti-field:last-child { grid-column: 1 / -1; }
+  .cta.hh-lead-submit { width: 100%; height: 56px; }
+  .ti-why.hh-why { padding-top: 64px; }
+  .hh-why > .page-container { padding-bottom: 64px; }
+  .hh-band-list { flex-direction: column; gap: 24px; width: calc(100% - 48px); }
+  .hh-band p { min-height: 0; }
+  .hh-basics { --gutter: 24px; padding: 72px 0; }
+  .ti-how.hh-how { padding: 72px 0; }
+  .hh-opinion { padding: 72px 0; }
+  .hh-opinion h2 { font-size: 40px; line-height: 1.24; }
+}
+
+/* Phone */
+@media (max-width: 639px) {
+  .hh-stage { padding-top: 40px; }
+  .hh-photo { margin-top: 32px; aspect-ratio: 4 / 3; }
+  .hh-pill { height: 34px; padding: 0 14px; font-size: 10px; letter-spacing: 1.4px; }
+  .hh-pill-hospitals { left: auto; right: 12px; top: 16px; }
+  .hh-pill-claims { left: 12px; top: auto; bottom: 64px; }
+  .hh-lead-card { padding: 28px 20px; }
+  .hh-lead-fields { grid-template-columns: 1fr; gap: 20px; }
+  .hh-basics { padding: 56px 0; }
+  .hh-basics-card { width: min(275px, 80vw); }
+  .hh-basics-card p { width: auto; }
+  .ti-how.hh-how, .hh-opinion { padding: 56px 0; }
+  .hh-opinion h2 { font-size: clamp(30px, 8.6vw, 36px); }
+  .hh-opinion .cta { width: 100%; }
+}
+@media (max-width: 374px) {
+  .hh-basics { --gutter: 20px; }
+}
