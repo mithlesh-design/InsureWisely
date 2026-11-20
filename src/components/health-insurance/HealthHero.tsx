@@ -21,7 +21,7 @@ export function HealthHero() {
       </div>
     </div>
     <div className="page-container hh-lead-wrap">
-      <HealthLeadForm />
+      <HealthLeadForm id="get-started" />
     </div>
   </section>;
 }

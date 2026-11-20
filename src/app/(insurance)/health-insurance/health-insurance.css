@@ -64,38 +64,23 @@
 .hh-opinion p { max-width: 580px; margin-top: 21px; font: 400 16px/24px var(--font-inter); }
 .hh-opinion .cta { width: 368px; margin-top: 40px; }
 
-/* Desktop: full-screen sections for SectionReveal (see insurance.css). The hero is the header bar + a photo stage
-   that grows to fill the screen + the overlapping form. */
-@media (min-width: 1024px) {
-  .hh-hero { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; padding: 100px 0 40px; }
-  .hh-stage { flex: 1 0 auto; min-height: 0; }
-  .insurance-page .hh-hero > .hh-lead-wrap { margin-block: -45px 0; }
-  .hh-basics, .hh-opinion { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
-  .hh-basics-body { margin-block: auto; }
-}
-/* Why cards + band are the tallest screen; they need the tighter rhythm a little earlier than the rest,
-   and must fit down to 1024x768, where the card copy wraps the most */
-@media (min-width: 1024px) and (max-height: 900px) {
-  .ti-why.hh-why { padding-top: 48px; }
-  .hh-why > .page-container { padding-bottom: 40px; }
-  .hh-why .ti-why-cards { margin-top: 40px; }
-  .hh-why .ti-why-card { min-height: 0; padding-block: 36px; }
-  .hh-band { padding-block: 28px; }
-}
-@media (min-width: 1024px) and (max-height: 860px) {
-  .hh-stage { padding-block: 32px; }
-  .hh-basics { padding-block: 56px; }
-}
-@media (min-width: 1024px) and (max-height: 720px) {
-  .hh-hero { padding-bottom: 24px; }
-  .hh-stage { padding-block: 24px; }
-  .hh-lead-card { padding-block: 32px; }
-  .ti-why.hh-why { padding-top: 32px; }
-  .hh-why > .page-container { padding-bottom: 32px; }
-  .hh-why .ti-why-cards { margin-top: 32px; }
-  .hh-why .ti-why-card { padding-block: 32px; }
-  .hh-band { padding-block: 24px; }
-}
+/*
+  Sticky expert bar 1019:79 (StickyLeadBar): fixed to the bottom of the screen once the hero has scrolled away.
+  Navy bar, white labels, 20% white controls, same one-row layout as the hero form at up to 1159px wide.
+  The footer gets a navy strip the bar's height so its last line can still scroll clear of the bar.
+*/
+:root { --hh-sticky-h: 119px; }
+.hh-sticky { position: fixed; inset: auto 0 0; z-index: 40; padding: 24px 40px; background: #0a2754; transform: translateY(100%); visibility: hidden; transition: transform .35s ease, visibility 0s .35s; }
+.hh-sticky.is-visible { transform: none; visibility: visible; transition: transform .35s ease; }
+.hh-sticky-form { display: flex; align-items: flex-end; gap: 36px; max-width: 1159px; margin-inline: auto; }
+.hh-sticky .ti-label { color: #fff; }
+.hh-sticky .ti-control { background-color: rgb(255 255 255 / 20%); color: #fff; }
+.hh-sticky .ti-control::placeholder { color: rgb(255 255 255 / 30%); }
+.hh-sticky select.ti-control, .hh-sticky select.ti-control:invalid { color: #fff; background-image: url('/images/health-insurance/chevron-white.svg'); }
+.hh-sticky .ti-control:focus-visible { box-shadow: 0 0 0 2px #fff; }
+.hh-sticky .hh-sticky-cta { display: none; }
+html:has(.hh-sticky) { scroll-padding-bottom: var(--hh-sticky-h); }
+.insurance-page:has(.hh-sticky) .site-footer { border-bottom: var(--hh-sticky-h) solid #0a1b2c; }
 
 /* Laptop */
 @media (min-width: 1024px) and (max-width: 1439px) {
@@ -105,6 +90,11 @@
 
 /* Tablet: stack the form, wrap the band */
 @media (max-width: 1023px) {
+  /* No design below desktop: a three-field bar would cover too much of the screen, so it becomes one button */
+  :root { --hh-sticky-h: 76px; }
+  .hh-sticky { padding: 12px 24px calc(12px + env(safe-area-inset-bottom)); }
+  .hh-sticky-form { display: none; }
+  .hh-sticky .hh-sticky-cta { display: flex; width: 100%; height: 52px; }
   /* Copy first, then the photo as its own block (same crop as desktop); the form overlaps its bottom edge */
   .hh-stage { min-height: 0; padding: 56px 0 0; }
   .hh-hero-copy { order: 1; }

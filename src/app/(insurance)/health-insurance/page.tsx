@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SectionReveal } from "@/components/layout/SectionReveal";
 import { WhyCardsSection, type WhyCard } from "@/components/insurance/WhyCardsSection";
 import { AdviceSection } from "@/components/insurance/AdviceSection";
 import { HowItWorksSection, type Step } from "@/components/insurance/HowItWorksSection";
@@ -8,6 +7,7 @@ import { HealthHero } from "@/components/health-insurance/HealthHero";
 import { FeatureBand } from "@/components/health-insurance/FeatureBand";
 import { PlanBasicsSection } from "@/components/health-insurance/PlanBasicsSection";
 import { SecondOpinionSection } from "@/components/health-insurance/SecondOpinionSection";
+import { StickyLeadBar } from "@/components/health-insurance/StickyLeadBar";
 import "./health-insurance.css";
 
 export const metadata: Metadata = {
@@ -36,10 +36,10 @@ const QUESTIONS: Question[] = [
   { text: "Does the policy actually fit my family's needs?", textWidth: 244 },
 ];
 
-// Same full-screen section wipe as the landing and term pages; the feature band rides with the "why" cards
+// Normal page scroll (no full-screen section paging, unlike the landing page); the feature band closes the "why" section
 export default function HealthInsurancePage() {
   return (
-    <SectionReveal header=".ti-header">
+    <>
       <HealthHero />
       <WhyCardsSection id="why-health-title" className="hh-why" eyebrow="Four promises" title="Why consider term insurance?" cards={REASONS}>
         <FeatureBand />
@@ -49,6 +49,7 @@ export default function HealthInsurancePage() {
       <AdviceSection id="advice-health-title" title="Advice that puts you first." intro="We help you understand your options clearly, so you can choose a health plan with confidence." cta={{ label: "Get started now", href: "#get-started" }} />
       <SecondOpinionSection />
       <QuestionsSection id="questions-health-title" questions={QUESTIONS} />
-    </SectionReveal>
+      <StickyLeadBar after=".hh-hero" />
+    </>
   );
 }

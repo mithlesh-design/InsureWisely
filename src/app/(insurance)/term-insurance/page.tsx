@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SectionReveal } from "@/components/layout/SectionReveal";
 import { WhyCardsSection, type WhyCard } from "@/components/insurance/WhyCardsSection";
 import { AdviceSection } from "@/components/insurance/AdviceSection";
 import { HowItWorksSection, type Step } from "@/components/insurance/HowItWorksSection";
@@ -34,10 +33,10 @@ const QUESTIONS: Question[] = [
   { text: "Does the policy actually fit my family's needs?", textWidth: 244 },
 ];
 
-// Same full-screen section wipe as the landing page; the light header fades out after the hero
+// Normal page scroll (no full-screen section paging, unlike the landing page)
 export default function TermInsurancePage() {
   return (
-    <SectionReveal header=".ti-header">
+    <>
       <TermHero />
       <WhyCardsSection id="why-term-title" eyebrow="Four promises" title="Why consider term insurance?" cards={REASONS} cta={{ label: "Get started now", href: "#get-started" }} />
       <CoverCalculator />
@@ -45,6 +44,6 @@ export default function TermInsurancePage() {
       <PromiseSection />
       <HowItWorksSection id="how-title" title="Getting insured doesn’t have to be complicated." steps={STEPS} textHeight={67} />
       <QuestionsSection id="questions-title" questions={QUESTIONS} />
-    </SectionReveal>
+    </>
   );
 }

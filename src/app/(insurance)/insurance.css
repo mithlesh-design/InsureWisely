@@ -152,34 +152,6 @@ button.cta { cursor: pointer; }
 .ti-question p { max-width: var(--text-w, none); font: 400 18px/23.8px var(--font-work-sans); color: #14213d; }
 .ti-questions .cta { width: 384px; margin-top: 40px; }
 
-/*
-  Desktop: like the landing page, every section fills the screen and SectionReveal wipes them in one gesture at a time.
-  The header overlays the hero (its white bar covers the hero's first 100px) so the hero is a full screen too.
-  margin-block: auto centres the content but lets a section taller than the screen overflow downwards only,
-  which SectionReveal then slides into view.
-*/
-@media (min-width: 1024px) {
-  .ti-header { position: absolute; inset: 0 0 auto; }
-  .ti-hero { padding-top: 170px; }
-  .ti-hero, .ti-why, .ti-calc, .ti-advice, .ti-promise, .ti-how, .ti-questions { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
-  .insurance-page .section > .page-container { margin-block: auto; }
-  /* 64px keeps the calculator to one screen down to 1080px tall; shorter screens get its extra step */
-  .ti-calc { padding-top: 64px; padding-bottom: 64px; }
-}
-/* Short desktop screens: tighten vertical rhythm so sections fit one screen */
-@media (min-width: 1024px) and (max-height: 860px) {
-  .ti-hero { padding-top: 140px; padding-bottom: 40px; }
-  .ti-why, .ti-calc, .ti-advice, .ti-promise, .ti-how, .ti-questions { padding-top: 64px; padding-bottom: 64px; }
-  .ti-why-cards { margin-top: 40px; }
-  .ti-why-card { min-height: 0; }
-  .ti-calc-card { margin-top: 40px; }
-}
-@media (min-width: 1024px) and (max-height: 720px) {
-  .ti-hero { padding-top: 116px; padding-bottom: 24px; }
-  .ti-why, .ti-calc, .ti-advice, .ti-promise, .ti-how, .ti-questions { padding-top: 40px; padding-bottom: 40px; }
-  .ti-why-cards { margin-top: 32px; }
-}
-
 /* Manual line breaks from the 1512 frame only hold at full width */
 @media (max-width: 1439px) {
   .ti-lg-break, .ti-desktop-break { display: none; }
